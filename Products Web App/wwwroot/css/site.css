@@ -16,3 +16,15 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+header {
+    border: 3px dashed red;
+}
+
+main {
+    border: 3px dashed orange;
+}
+
+footer {
+    border: 3px dashed blue
+}
