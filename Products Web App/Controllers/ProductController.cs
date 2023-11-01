@@ -20,6 +20,21 @@ namespace Products_Web_App.Controllers
             return View(foundProduct);
         
         }
+
+        public IActionResult Edit(int id)
+        {
+            ProductsDAO products = new ProductsDAO();
+            ProductModel foundProduct = products.GetProductById(id);
+            return View("ShowEdit", foundProduct);
+
+        }
+
+        public IActionResult ProcessEdit(ProductModel product)
+        {
+            ProductsDAO products = new ProductsDAO();
+            products.Update(product);
+            return View("Index", products.GetAllProducts());
+        }
         public IActionResult SearchResults(string searchTerm)
         {
             ProductsDAO productDAO = new ProductsDAO();
