@@ -13,6 +13,13 @@ namespace Products_Web_App.Controllers
             return View(productsDAO.GetAllProducts());
         }
 
+        public IActionResult ShowDetails(int id)
+        {
+            ProductsDAO products = new ProductsDAO();
+            ProductModel foundProduct = products.GetProductById(id);
+            return View(foundProduct);
+        
+        }
         public IActionResult SearchResults(string searchTerm)
         {
             ProductsDAO productDAO = new ProductsDAO();

@@ -41,7 +41,31 @@ namespace Products_Web_App.Services
 
         public ProductModel GetProductById(int id)
         {
-            throw new NotImplementedException();
+            ProductModel foundProduct = null;
+
+            string sqlStatement = "SELECT * FROM dbo.Products WHERE Id LIKE @Id";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sqlStatement, connection);
+                command.Parameters.AddWithValue("@Id", id);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        foundProduct = new ProductModel { Id = (int)reader[0], Name = (string)reader[1], Price = (decimal)reader[2], Description = (string)reader[3] };
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            return foundProduct;
         }
 
         public int Insert(ProductModel model)
