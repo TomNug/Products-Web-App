@@ -89,9 +89,32 @@ namespace Products_Web_App.Services
             return foundProduct;
         }
 
-        public int Insert(ProductModel model)
+        public int Insert(ProductModel product)
         {
-            throw new NotImplementedException();
+            int newIdNumber = -1;
+
+            string sqlStatement = "INSERT INTO dbo.Products (Name, Price, Description) VALUES (@Name, @Price, @Description)";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sqlStatement, connection);
+                command.Parameters.AddWithValue("@Name", product.Name);
+                command.Parameters.AddWithValue("@Price", product.Price);
+                command.Parameters.AddWithValue("@Description", product.Description);
+
+
+                try
+                {
+                    connection.Open();
+                    newIdNumber = Convert.ToInt32(command.ExecuteScalar());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            return newIdNumber;
         }
 
         public List<ProductModel> SearchProducts(string searchTerm)

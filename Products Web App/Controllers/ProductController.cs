@@ -29,6 +29,12 @@ namespace Products_Web_App.Controllers
 
         }
 
+        public IActionResult Create()
+        {
+            return View("InputForm");
+
+        }
+
         public IActionResult Delete(int id)
         {
             ProductsDAO productsDAO =new ProductsDAO();
@@ -53,5 +59,19 @@ namespace Products_Web_App.Controllers
         {
             return View();
         }
+
+        public IActionResult InputForm()
+        {
+            return View();
+        }
+
+        public IActionResult ProcessCreate(ProductModel product)
+        {
+            ProductsDAO products = new ProductsDAO();
+            products.Insert(product);
+            return View("Index", products.GetAllProducts());
+        }
+
+
     }
 }
