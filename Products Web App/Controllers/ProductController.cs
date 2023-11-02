@@ -29,6 +29,13 @@ namespace Products_Web_App.Controllers
 
         }
 
+        public IActionResult Delete(int id)
+        {
+            ProductsDAO productsDAO =new ProductsDAO();
+            ProductModel product = productsDAO.GetProductById(id);
+            productsDAO.Delete(product);
+            return View("Index", productsDAO.GetAllProducts());
+        }
         public IActionResult ProcessEdit(ProductModel product)
         {
             ProductsDAO products = new ProductsDAO();

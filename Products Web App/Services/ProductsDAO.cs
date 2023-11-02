@@ -6,9 +6,30 @@ namespace Products_Web_App.Services
     public class ProductsDAO : IProductDataService
     {
         string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Products;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        public int Delete(ProductModel model)
+        public int Delete(ProductModel product)
         {
-            throw new NotImplementedException();
+            int newIdNumber = -1;
+
+            string sqlStatement = "DELETE FROM dbo.Products WHERE Id = @Id";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sqlStatement, connection);
+                command.Parameters.AddWithValue("@Id", product.Id);
+
+
+                try
+                {
+                    connection.Open();
+                    newIdNumber = Convert.ToInt32(command.ExecuteScalar());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            return newIdNumber;
         }
 
         public List<ProductModel> GetAllProducts()
